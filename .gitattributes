@@ -1,0 +1,47 @@
+# Normalize line endings for text files
+* text=auto
+
+# Source
+*.cs      text diff=csharp eol=lf
+*.csproj  text eol=lf
+*.props   text eol=lf
+*.targets text eol=lf
+*.slnx    text eol=lf
+*.sln     text eol=crlf
+*.json    text eol=lf
+*.md      text diff=markdown eol=lf
+*.yml     text eol=lf
+*.yaml    text eol=lf
+*.xml     text eol=lf
+*.config  text eol=lf
+*.http    text eol=lf
+*.html    text diff=html eol=lf
+*.css     text diff=css eol=lf
+*.js      text eol=lf
+*.jsx     text eol=lf
+*.ts      text eol=lf
+*.tsx     text eol=lf
+*.sh      text eol=lf
+.gitattributes text eol=lf
+.gitignore text eol=lf
+
+# Lock files: don't diff/merge noisily
+pnpm-lock.yaml -diff linguist-generated
+package-lock.json -diff linguist-generated
+
+# Binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.ttf  binary
+*.eot  binary
+*.dll  binary
+*.exe  binary
+*.pdb  binary
+*.zip  binary
+*.pdf  binary
