@@ -32,6 +32,22 @@ pnpm install
 pnpm dev
 ```
 
+Open http://localhost:5173. The client proxies `/api` to the API.
+
+## Accounts
+
+In Development the API applies migrations and seeds 100 users on first start. Every seeded user has the password `P@ssw0rd!`. Log in with username `dnoyola` or email `dnoyola@example.com`.
+
+The session is an HttpOnly cookie (`sm.session`) set by ASP.NET Core Identity. There is no email service yet, so "Forgot password" writes the reset link to the API console log.
+
+To start over with a fresh seed, stop the API and delete `api/socialmedia.db`.
+
+## API tests
+
+```bash
+dotnet test SocialMedia.slnx
+```
+
 ## Client scripts
 
 Run these from `client/`:
@@ -40,7 +56,7 @@ Run these from `client/`:
 | ----------------- | ------------------------ |
 | `pnpm build`      | Production build         |
 | `pnpm test`       | Run unit tests           |
-| `pnpm e2e`        | Run Playwright tests     |
+| `pnpm e2e`        | Run Playwright tests (starts the API and the client) |
 | `pnpm check`      | Lint, format, type check |
 
 ## Build the solution
