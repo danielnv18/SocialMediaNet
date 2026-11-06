@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/api.Tests/">
+    <Project Path="api.Tests/SocialMedia.Api.Tests.csproj" />
+  </Folder>
   <Folder Name="/api/">
     <Project Path="api/SocialMedia.Api.csproj" />
   </Folder>
