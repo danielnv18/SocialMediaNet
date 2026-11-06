@@ -11,9 +11,20 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
-  webServer: {
-    command: "npx vp dev --port 5173 --strictPort",
-    url: "http://localhost:5173",
-    reuseExistingServer: !process.env.CI,
-  },
+  webServer: [
+    {
+      // Run from api/ so its relative SQLite path resolves there, not in client/.
+      command: "dotnet run --launch-profile http",
+      cwd: "../api",
+      // /me answers 401 without a session, which Playwright counts as ready.
+      url: "http://localhost:5143/api/auth/me",
+      reuseExistingServer: !process.env.CI,
+      timeout: 120_000,
+    },
+    {
+      command: "npx vp dev --port 5173 --strictPort",
+      url: "http://localhost:5173",
+      reuseExistingServer: !process.env.CI,
+    },
+  ],
 });
