@@ -1,3 +1,5 @@
+import { fileURLToPath, URL } from "node:url";
+import tailwindcss from "@tailwindcss/vite";
 import vue from "@vitejs/plugin-vue";
 import { defineConfig, lazyPlugins } from "vite-plus";
 
@@ -13,5 +15,11 @@ export default defineConfig({
     environment: "jsdom",
     include: ["src/**/*.spec.ts"],
   },
-  plugins: lazyPlugins(() => [vue()]),
+  resolve: {
+    alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
+  },
+  server: {
+    proxy: { "/api": "http://localhost:5143" },
+  },
+  plugins: lazyPlugins(() => [vue(), tailwindcss()]),
 });

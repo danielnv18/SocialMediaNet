@@ -1,6 +1,41 @@
 @SocialMedia.Api_HostAddress = http://localhost:5143
 
-GET {{SocialMedia.Api_HostAddress}}/weatherforecast/
+POST {{SocialMedia.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "login": "dnoyola",
+  "password": "P@ssw0rd!"
+}
+
+###
+
+GET {{SocialMedia.Api_HostAddress}}/api/auth/me
 Accept: application/json
+
+###
+
+POST {{SocialMedia.Api_HostAddress}}/api/auth/logout
+
+###
+
+POST {{SocialMedia.Api_HostAddress}}/api/auth/forgot-password
+Content-Type: application/json
+
+{
+  "email": "dnoyola@example.com"
+}
+
+###
+
+# Copy the token from the reset link the API logs after forgot-password.
+POST {{SocialMedia.Api_HostAddress}}/api/auth/reset-password
+Content-Type: application/json
+
+{
+  "email": "dnoyola@example.com",
+  "token": "<token from logged reset link>",
+  "newPassword": "N3wP@ssw0rd!"
+}
 
 ###
