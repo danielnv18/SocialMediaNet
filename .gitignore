@@ -487,3 +487,8 @@ client/dist/
 .pnpm-store/
 npm-debug.log*
 pnpm-debug.log*
+
+# SQLite
+*.db
+*.db-shm
+*.db-wal
