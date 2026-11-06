@@ -11,6 +11,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddIdentityCore<User>(options => options.User.RequireUniqueEmail = true)
     .AddEntityFrameworkStores<AppDbContext>()
+    .AddUserManager<AppUserManager>()
     .AddSignInManager()
     .AddDefaultTokenProviders();
 

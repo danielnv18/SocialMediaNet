@@ -85,6 +85,37 @@ public class AuthTests(ApiFactory factory)
     }
 
     [Fact]
+    public async Task Correct_login_succeeds_while_wrong_passwords_race_it()
+    {
+        for (var round = 0; round < 10; round++)
+        {
+            var (userName, _) = await RegisterNewUser(factory.CreateSessionClient());
+            Task<HttpResponseMessage> Attempt(string password) => factory.CreateSessionClient()
+                .PostAsJsonAsync("/api/auth/login", new { login = userName, password });
+
+            await Attempt("wrong-password");
+            var wrong = Attempt("wrong-password");
+            var correct = Attempt(SeedPassword);
+            await Task.WhenAll(wrong, correct);
+
+            Assert.Equal(HttpStatusCode.OK, (await correct).StatusCode);
+        }
+    }
+
+    [Fact]
+    public async Task Parallel_failed_logins_all_count_toward_lockout()
+    {
+        var (userName, _) = await RegisterNewUser(factory.CreateSessionClient());
+        Task<HttpResponseMessage> Attempt(string password) => factory.CreateSessionClient()
+            .PostAsJsonAsync("/api/auth/login", new { login = userName, password });
+
+        await Task.WhenAll(Enumerable.Range(0, 5).Select(_ => Attempt("wrong-password")));
+        var response = await Attempt(SeedPassword);
+
+        Assert.Equal((HttpStatusCode)429, response.StatusCode);
+    }
+
+    [Fact]
     public async Task Me_without_a_session_is_unauthorized()
     {
         var response = await factory.CreateSessionClient().GetAsync("/api/auth/me");
